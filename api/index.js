@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 dotenv.config();
 const PORT = 8080;
 
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
 
 const app = express();
 
