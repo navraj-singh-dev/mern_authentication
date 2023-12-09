@@ -8,10 +8,9 @@ dotenv.config();
 const PORT = 8080;
 
 const __dirname = path.resolve();
-const clientBuildPath = path.join(__dirname, '..', 'client', 'dist');
-app.use(express.static(clientBuildPath));
+app.use(express.static(path.join(__dirname, "/client/dist")));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(clientBuildPath, "index.html"));
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
 // database connection
