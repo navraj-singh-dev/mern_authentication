@@ -2,7 +2,7 @@
 
 ## Live Website Link Here
 [Website Live Link](https://mern-auth-0f7c.onrender.com)
-
+As Website is deployed on a free plan of "Render" online deployment service, it is slow to open, please wait 60-100 seconds for website to open.
 
 MERN-Authentication is a comprehensive and secure Authentication Web Application built on the MERN (MongoDB, Express.js, React.js, Node.js) stack. Our primary focus is to provide a seamless and protected user authentication experience for modern web applications.
 
