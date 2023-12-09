@@ -11,10 +11,17 @@ const PORT = 8080;
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "/client")));
+// app.use(express.static(path.join(__dirname, "/client")));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "client", "index.html"));
+// });
+const clientBuildPath = path.join(__dirname, '..', 'client', 'dist');
+
+app.use(express.static(clientBuildPath));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "index.html"));
+  res.sendFile(path.join(clientBuildPath, "index.html"));
 });
+
 
 // database connection
 mongoose
