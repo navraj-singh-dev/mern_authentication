@@ -5,6 +5,7 @@ import OAuth from "../components/OAuth";
 export default function SignUp() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(false);
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -25,13 +26,19 @@ export default function SignUp() {
         },
         body: JSON.stringify(formData),
       });
+
       const data = await res.json();
       setLoading(false);
-      if (data.success === false) {
-        setError(true);
-        return;
+
+      if (Object.keys(data.errors).length > 0) {
+        setErrors(
+          data.errors.reduce((acc, error) => {
+            return { ...acc, [error.path]: error.msg };
+          }, {})
+        );
+        return; // Prevent redirection on validation errors
       }
-      navigate("/sign-in")
+      navigate("/sign-in");
     } catch (error) {
       setLoading(false);
     }
@@ -55,6 +62,7 @@ export default function SignUp() {
           className="bg-slate-300 p-3 rounded-lg"
           onChange={handleChange}
         />
+        {errors.email && <p className="text-red-500">{errors.email}</p>}
         <input
           type="password"
           placeholder="Password"
@@ -62,6 +70,7 @@ export default function SignUp() {
           className="bg-slate-300 p-3 rounded-lg"
           onChange={handleChange}
         />
+        {errors.password && <p className="text-red-500">{errors.password}</p>}
         <button
           disabled={loading}
           className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
