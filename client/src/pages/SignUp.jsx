@@ -7,14 +7,16 @@ export default function SignUp() {
   const [error, setError] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     // event object is being passed as argument and target.id is coming from <input> tag's attribute.
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    // e.preventDefault() prevent refresh on submit.
     e.preventDefault();
     try {
       setLoading(true);
@@ -30,15 +32,26 @@ export default function SignUp() {
       const data = await res.json();
       setLoading(false);
 
-      if (Object.keys(data.errors).length > 0) {
-        setErrors(
-          data.errors.reduce((acc, error) => {
-            return { ...acc, [error.path]: error.msg };
-          }, {})
+      // Check if the response has the expected success message
+      if (data.message === "new user created successfully") {
+        setErrors({}); // Clear any previous errors
+        setSuccessMessage(
+          "Sign-up was successful! Redirecting to Sign-In Page..."
         );
-        return; // Prevent redirection on validation errors
+
+        // Redirect after a delay
+        setTimeout(() => {
+          navigate("/sign-in");
+        }, 4000);
       }
-      navigate("/sign-in");
+      if (data.errors && data.errors.length > 0) {
+        const errorObj = {};
+        data.errors.forEach((error) => {
+          errorObj[error.path] = error.msg;
+        });
+        setErrors(errorObj);
+        return;
+      }
     } catch (error) {
       setLoading(false);
     }
@@ -92,6 +105,11 @@ export default function SignUp() {
           {error && "Something Went Wrong 🥺"}
         </p>
       </div>
+      {successMessage && (
+        <div className="bg-gray-700 mt-5 rounded-lg shadow-lg hover:shadow-amber-500/40">
+          <p className="text-green-500 text-lg font-medium text-center p-4">{successMessage}</p>
+        </div>
+      )}
     </div>
   );
 }
