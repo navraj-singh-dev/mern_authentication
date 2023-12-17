@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import OAuth from "../components/OAuth";
 
 export default function SignUp() {
@@ -58,58 +59,73 @@ export default function SignUp() {
   };
 
   return (
-    <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          id="username"
-          className="bg-slate-300 p-3 rounded-lg"
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          placeholder="Email"
-          id="email"
-          className="bg-slate-300 p-3 rounded-lg"
-          onChange={handleChange}
-        />
-        {errors.email && <p className="text-red-500">{errors.email}</p>}
-        <input
-          type="password"
-          placeholder="Password"
-          id="password"
-          className="bg-slate-300 p-3 rounded-lg"
-          onChange={handleChange}
-        />
-        {errors.password && <p className="text-red-500">{errors.password}</p>}
-        <button
-          disabled={loading}
-          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
-        >
-          {loading ? "Signing You Up...💫" : "Sign Up"}
-        </button>
-        <OAuth />
-      </form>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}
+    >
+      <div className="p-3 max-w-lg mx-auto">
+        <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Username"
+            id="username"
+            className="bg-slate-300 p-3 rounded-lg"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            placeholder="Email"
+            id="email"
+            className="bg-slate-300 p-3 rounded-lg"
+            onChange={handleChange}
+          />
+          {errors.email && <p className="text-red-500">{errors.email}</p>}
+          <input
+            type="password"
+            placeholder="Password"
+            id="password"
+            className="bg-slate-300 p-3 rounded-lg"
+            onChange={handleChange}
+          />
+          {errors.password && <p className="text-red-500">{errors.password}</p>}
+          <button
+            disabled={loading}
+            className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+          >
+            {loading ? "Signing You Up...💫" : "Sign Up"}
+          </button>
+          <OAuth />
+        </form>
 
-      <div className="flex gap-2 mt-5">
-        <p>Have an account?</p>
-        <Link to="/sign-in">
-          <span className="text-blue-500">Sign in</span>
-        </Link>
-      </div>
-
-      <div className="bg-red-800 mt-5 rounded-lg shadow-lg hover:shadow-amber-500/40">
-        <p className="text-white text-lg text-center font-light antialiased">
-          {error && "Something Went Wrong 🥺"}
-        </p>
-      </div>
-      {successMessage && (
-        <div className="bg-gray-700 mt-5 rounded-lg shadow-lg hover:shadow-amber-500/40">
-          <p className="text-green-500 text-lg font-medium text-center p-4">{successMessage}</p>
+        <div className="flex gap-2 mt-5">
+          <p>Have an account?</p>
+          <Link to="/sign-in">
+            <span className="text-blue-500">Sign in</span>
+          </Link>
         </div>
-      )}
-    </div>
+
+        <div className="bg-red-800 mt-5 rounded-lg shadow-lg hover:shadow-amber-500/40">
+          <p className="text-white text-lg text-center font-light antialiased">
+            {error && "Something Went Wrong 🥺"}
+          </p>
+        </div>
+        {successMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 1 }}
+            className="bg-gray-700 mt-5 rounded-lg shadow-lg hover:shadow-amber-500/40"
+          >
+            <p className="text-green-500 text-lg font-medium text-center p-4">
+              {successMessage}
+            </p>
+          </motion.div>
+        )}
+      </div>
+    </motion.div>
   );
 }
